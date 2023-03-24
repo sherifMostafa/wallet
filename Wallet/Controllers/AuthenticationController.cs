@@ -10,6 +10,8 @@ using Wallet.Dto;
 using Wallet.Extenstions;
 using Wallet.JWT;
 using Wallet.Models.Identity;
+using Wallet.Repository.Balance;
+using Wallet.UnitOfWork;
 
 namespace Wallet.Controllers
 {
@@ -20,15 +22,21 @@ namespace Wallet.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IBalanceRepository _balance;
+        private readonly IUnitOfWork _unitofwork;
 
         public AuthenticationController(
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
+            IUnitOfWork unitofwork,
+            IBalanceRepository balance,
             IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _balance = balance;
+            _unitofwork = unitofwork;
         }
 
         [HttpPost]
@@ -78,6 +86,24 @@ namespace Wallet.Controllers
                 MobileNumber = model.Mobile
             };
             var result = await _userManager.CreateAsync(user, model.Password);
+
+            //create Role For First Time if not exist
+            if (!await _roleManager.RoleExistsAsync(UserRoles.Admin))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
+            if (!await _roleManager.RoleExistsAsync(UserRoles.User))
+                await _roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+
+            if (await _roleManager.RoleExistsAsync(UserRoles.User))
+            {
+                await _userManager.AddToRoleAsync(user, UserRoles.User);
+            }
+            if (result.Succeeded)
+            {
+                var createdUser = await _userManager.FindByMobileNumberAsync(model.Mobile);
+                _balance.GreatingBalance(createdUser);
+                await _unitofwork.SaveChangesAsync();
+            }
+
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
@@ -100,6 +126,7 @@ namespace Wallet.Controllers
                 MobileNumber = model.Mobile
             };
             var result = await _userManager.CreateAsync(user, model.Password);
+           
             if (!result.Succeeded)
                 return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
 
@@ -112,10 +139,7 @@ namespace Wallet.Controllers
             {
                 await _userManager.AddToRoleAsync(user, UserRoles.Admin);
             }
-            if (await _roleManager.RoleExistsAsync(UserRoles.Admin))
-            {
-                await _userManager.AddToRoleAsync(user, UserRoles.User);
-            }
+           
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
 

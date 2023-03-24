@@ -1,7 +1,9 @@
-﻿namespace Wallet.Repository.Balance
+﻿using Wallet.Models.Identity;
+
+namespace Wallet.Repository.Balance
 {
     public interface IBalanceRepository
     {
-        Task GreatingBalance(int Balance , string UserId);
+        void GreatingBalance(ApplicationUser user);
     }
 }

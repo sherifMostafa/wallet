@@ -1,25 +1,32 @@
-﻿namespace Wallet.Repository.Balance
+﻿using Wallet.Models;
+using Wallet.Models.Identity;
+using Wallet.Persistence;
+
+namespace Wallet.Repository.Balance
 {
     public class BalanceRepository : IBalanceRepository
     {
-        private readonly IBalanceRepository _balanceRepository;
+        private readonly IConfiguration _configuration;
+        private readonly ILogger<BalanceRepository> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public BalanceRepository(IBalanceRepository balanceRepository, IConfiguration configuration)
+
+        public BalanceRepository(IConfiguration configuration , ApplicationDbContext context)
         {
-            _balanceRepository = balanceRepository;
             _configuration = configuration;
+            _context = context;
         }
 
-        public Task GreatingBalance(int Balance)
+        public void GreatingBalance(ApplicationUser user)
         {
-            throw new NotImplementedException();
-        }
+            Wallet.Models.Balance balance = new Models.Balance()
+            {
+                Id = new Guid(user.Id),
+                Balance_Amount = Decimal.Parse(_configuration["GreatingBalance"]),
+                UserId =  user.Id
+            };
 
-        public Task GreatingBalance(string UserId)
-        {
-            var user 
-
-            throw new NotImplementedException();
+            _context.Balance.Add(balance);
         }
     }
 }
