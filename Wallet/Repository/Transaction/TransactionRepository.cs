@@ -47,7 +47,6 @@ namespace Wallet.Repository.Transaction
                         receiverBalance.Balance_Amount += transaction.Amount;
                     }
 
-                    //await _dbContext.SaveChangesAsync();
                     transactionScope.Commit();
                     return true;
                 }

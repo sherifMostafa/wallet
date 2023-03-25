@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Wallet.JWT;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -11,7 +12,7 @@ namespace Wallet.Controllers
     {
         // GET: api/<ReportController>
         [HttpGet]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = UserRoles.Admin)]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
