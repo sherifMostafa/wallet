@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Wallet.Models.Identity;
 using Wallet.Persistence;
 using Wallet.Repository.Balance;
+using Wallet.Repository.Transaction;
 using Wallet.UnitOfWork;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 //add Services 
+builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IBalanceRepository, BalanceRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -56,6 +58,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
