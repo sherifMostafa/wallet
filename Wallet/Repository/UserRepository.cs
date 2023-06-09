@@ -1,17 +1,23 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Wallet.Dto;
 using Wallet.Models.Identity;
+using Wallet.Persistence;
 
 namespace Wallet.Repository
 {
-    public class UserRepository
+    public class UserRepository : IUserRepository
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationDbContext _context;
 
-        public UserRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public UserRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _context = context;
+
         }
 
 
@@ -35,6 +41,15 @@ namespace Wallet.Repository
             await _signInManager.SignOutAsync();
         }
 
+        public Task<SignInResult> PasswordSignInAsync(LoginVM login)
+        {
+            throw new NotImplementedException();
+        }
 
-}
+        public async Task<List<UserDto>> GetAllUser()
+        {
+            var result = await _context.Users.Select(p => new UserDto { Id = p.Id, Email = p.Email, UserName = p.UserName, MobileNumber = p.MobileNumber}).ToListAsync();
+            return result;
+        }
+    }
 }

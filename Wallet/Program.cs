@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Wallet.Models.Identity;
 using Wallet.Persistence;
+using Wallet.Repository;
 using Wallet.Repository.Balance;
 using Wallet.Repository.Report;
 using Wallet.Repository.Transaction;
@@ -19,6 +20,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IBalanceRepository, BalanceRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

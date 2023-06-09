@@ -9,6 +9,7 @@ namespace Wallet.Repository
         Task<ApplicationUser> GetUserByEmailAsync(string moblie);
         Task<IdentityResult> CreateUserAsync(ApplicationUser user, string password);
         Task<SignInResult> PasswordSignInAsync(LoginVM login);
-        Task SignOutAsync(); 
+        Task SignOutAsync();
+        Task<List<UserDto>> GetAllUser();
     }
 }
