@@ -7,6 +7,7 @@ using System.Text;
 using Wallet.Models.Identity;
 using Wallet.Persistence;
 using Wallet.Repository.Balance;
+using Wallet.Repository.Report;
 using Wallet.Repository.Transaction;
 using Wallet.UnitOfWork;
 
@@ -17,6 +18,7 @@ var builder = WebApplication.CreateBuilder(args);
 //add Services 
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IBalanceRepository, BalanceRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 

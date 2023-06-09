@@ -31,8 +31,13 @@ namespace Wallet.Repository.Transaction
 
                     senderBalance.Balance_Amount -= transaction.Amount;
 
+                   
+
                     // Add amount to receiver's account
                     var receiverBalance = await _context.Balance.FirstOrDefaultAsync(a => a.User.MobileNumber == transaction.ToMobile);
+
+                  
+
                     if (receiverBalance == null)
                     {
                         var userReceiver = await _context.User.FirstOrDefaultAsync(a => a.MobileNumber == transaction.ToMobile);
@@ -46,6 +51,11 @@ namespace Wallet.Repository.Transaction
                     {
                         receiverBalance.Balance_Amount += transaction.Amount;
                     }
+
+                    // Create Transction object and Save it
+                    var transactionObj = new Wallet.Models.Transaction { UserId = senderBalance.UserId, TransferAmound = transaction.Amount, BalanceId = senderBalance.Id, Transfer_date = DateTime.UtcNow, TransferTo = receiverBalance.UserId };
+                    _context.Transaction.Add(transactionObj);
+
 
                     transactionScope.Commit();
                     return true;

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Wallet.Dto;
 using Wallet.JWT;
+using Wallet.Repository.Report;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,21 +10,21 @@ namespace Wallet.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   
     public class ReportController : ControllerBase
     {
-        // GET: api/<ReportController>
-        [HttpGet]
-        [Authorize(Roles = UserRoles.Admin)]
-        public IEnumerable<string> Get()
+        private IReportRepository _reportRepository;
+        public ReportController(IReportRepository reportRepository)
         {
-            return new string[] { "value1", "value2" };
+             _reportRepository = reportRepository;
         }
+        // GET: api/<ReportController>
 
-        // GET api/<ReportController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("GetUserTransAction/{userId}")]
+        [Authorize(Roles = UserRoles.Admin)]
+        public async Task<ActionResult<UserTransactionDto>> Get(string userId)
         {
-            return "value";
+            return Ok(await _reportRepository.GetUserTransAction(userId));
         }
 
         // POST api/<ReportController>
