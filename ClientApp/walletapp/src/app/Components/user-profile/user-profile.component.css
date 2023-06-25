@@ -1,0 +1,117 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    margin: 0;
+    padding: 0;
+  }
+
+  .profile-container {
+    max-width: 500px;
+    margin: 40px auto;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+  }
+
+  .profile-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    background-color: #ccc;
+  }
+
+  .profile-name {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+
+  .profile-email {
+    text-align: center;
+    color: #777;
+    margin-bottom: 20px;
+  }
+
+  .profile-info {
+    margin-bottom: 20px;
+  }
+
+  .profile-info label {
+    font-weight: bold;
+  }
+
+  .profile-info p {
+    margin: 5px 0;
+  }
+
+  .profile-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 10px 0;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+  }
+
+  .profile-button:hover {
+    background-color: #45a049;
+  }
+
+  .profile-link {
+    display: block;
+    width: 100%;
+    text-align: center;
+    background-color: #f2f2f2;
+    color: #333;
+    padding: 10px 0;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    margin-bottom: 10px;
+  }
+
+  .profile-link:hover {
+    background-color: #e5e5e5;
+  }
+
+  .profile-link.show-reports {
+    background-color: #2196f3;
+    color: #fff;
+  }
+
+  .profile-link.show-reports:hover {
+    background-color: #1976d2;
+  }
+
+  .profile-link.users {
+    background-color: #ff9800;
+    color: #fff;
+  }
+
+  .profile-link.users:hover {
+    background-color: #f57c00;
+  }
+
+  .profile-link.swap-money {
+    background-color: #9c27b0;
+    color: #fff;
+  }
+
+  .profile-link.swap-money:hover {
+    background-color: #7b1fa2;
+  }
+
+  .profile-link.create-admin {
+    background-color: #e91e63;
+    color: #fff;
+  }
+
+  .profile-link.create-admin:hover {
+    background-color: #c2185b;
+  }

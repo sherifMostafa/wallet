@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -16,6 +17,7 @@ using Wallet.UnitOfWork;
 namespace Wallet.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("WalletPolicy")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
@@ -63,8 +65,9 @@ namespace Wallet.Controllers
 
                 return Ok(new
                 {
-                    token = new JwtSecurityTokenHandler().WriteToken(token),
-                    expiration = token.ValidTo
+                    token = new JwtSecurityTokenHandler().WriteToken(token.Token),
+                    isAdmin = token.IsAdmin,
+                    expiration = token.Token.ValidTo
                 });
             }
             return Unauthorized();
@@ -143,7 +146,7 @@ namespace Wallet.Controllers
             return Ok(new Response { Status = "Success", Message = "User created successfully!" });
         }
 
-        private JwtSecurityToken GetToken(List<Claim> authClaims)
+        private TokenResponse GetToken(List<Claim> authClaims)
         {
             var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
 
@@ -155,7 +158,11 @@ namespace Wallet.Controllers
                 signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
                 );
 
-            return token;
+            bool isAdmin = authClaims.Any(c => c.Type == ClaimTypes.Role && c.Value == "Admin");
+
+
+
+            return new TokenResponse { Token = token , IsAdmin = isAdmin };
         }
     }
 }

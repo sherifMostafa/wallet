@@ -1,0 +1,21 @@
+<div class="profile-container">
+    <div class="profile-image"></div>
+    <h1 class="profile-name">John Doe</h1>
+    <p class="profile-email">john.doe@example.com</p>
+    <div class="profile-info">
+      <label>Address:</label>
+      <p>123 Main St, City, State</p>
+    </div>
+    <div class="profile-info">
+      <label>Phone:</label>
+      <p>(123) 456-7890</p>
+    </div>
+    <a href="#" class="profile-button">Edit Profile</a>
+    <a *ngIf="authmodel?.isAdmin" class="profile-link show-reports">Show Reports</a>
+    <a *ngIf="authmodel?.isAdmin" href="#" class="profile-link users">Users</a>
+    <a *ngIf="!authmodel?.isAdmin" href="#" class="profile-link swap-money">Swap Money</a>
+    <a *ngIf="authmodel?.isAdmin" href="#" class="profile-link create-admin">Create Admin</a>
+  </div>
+
+
+

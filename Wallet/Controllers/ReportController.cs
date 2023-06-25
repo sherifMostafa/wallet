@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Wallet.Dto;
 using Wallet.JWT;
@@ -11,6 +12,7 @@ namespace Wallet.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("WalletPolicy")]
     [Authorize(Roles = UserRoles.Admin)]
     public class ReportController : ControllerBase
     {

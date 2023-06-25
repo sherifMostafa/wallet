@@ -3,18 +3,27 @@
       <img src="assets/wallet-blue.png" alt="Wallet Logo">
     </div>
     <h2>Login</h2>
-    <form>
-      <div class="form-group">
-        <label for="mobile">Mobile Number:</label>
-        <input type="text" id="mobile" name="mobile" required>
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label class="form-label" for="mobileNumber">Mobile Number:</label>
+        <input class="form-input" type="text" id="mobileNumber" [(ngModel)]="loginModel.mobile" formControlName="mobileNumber">
+        <div class="form-error" *ngIf="getError('mobileNumber', 'required') && (f['mobileNumber'].dirty || f['mobileNumber'].touched)">
+          Mobile Number is required.
+        </div>
+        <div class="form-error" *ngIf="getError('mobileNumber', 'pattern') && (f['mobileNumber'].dirty || f['mobileNumber'].touched)">
+          Please enter a valid 11-digit mobile number.
+        </div>
       </div>
-      <div class="form-group">
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+    
+      <div>
+        <label class="form-label" for="password">Password:</label>
+        <input class="form-input" type="password" id="password" formControlName="password" [(ngModel)]="loginModel.password">
+        <div class="form-error" *ngIf="getError('password', 'required') && (f['password'].dirty || f['password'].touched)">
+          Password is required.
+        </div>
       </div>
-      <div class="form-group">
-        <button type="submit">Login</button>
-      </div>
+    
+      <button class="form-submit" type="submit" [disabled]="loginForm.invalid">Login</button>
     </form>
   </div>
   

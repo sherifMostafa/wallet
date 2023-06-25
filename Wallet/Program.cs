@@ -65,6 +65,17 @@ builder.Services.AddAuthentication(op =>
     };
 });
 
+// Cors
+var origins = builder.Configuration.GetValue<string>("AllowedOrigins").Split(";");
+builder.Services.AddCors(o => o.AddPolicy("WalletPolicy", buillder =>
+{
+    buillder.WithOrigins(origins)
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    .AllowCredentials()
+    .SetIsOriginAllowed((host) => true);
+}));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -76,6 +87,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
+app.UseCors("WalletPolicy");
 app.UseAuthentication();
 app.UseAuthorization();
 

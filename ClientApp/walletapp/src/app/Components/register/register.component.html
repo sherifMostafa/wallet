@@ -1,1 +1,56 @@
-<p>register works!</p>
+<div class="container">
+    <div class="logo">
+      <img src="assets/wallet-blue.png" alt="Wallet Logo">
+    </div>
+    <h2>Registration</h2>
+    <form class="registration-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label class="form-label" for="username">Username:</label>
+        <input class="form-input" type="text" id="username" [(ngModel)]="registerModel.username" formControlName="username">
+        <div class="form-error" *ngIf="getError('username', 'required') && (f['username']?.dirty || f['username']?.touched)">
+          Username is required.
+        </div>
+      </div>
+  
+      <div>
+        <label class="form-label" for="mobile">Mobile:</label>
+        <input class="form-input" type="text" id="mobile" [(ngModel)]="registerModel.mobile" formControlName="mobile">
+        <div class="form-error" *ngIf="getError('mobile', 'required') && (f['mobile']?.dirty || f['mobile']?.touched)">
+          Mobile is required.
+        </div>
+        <div class="form-error" *ngIf="getError('mobile', 'pattern') && (f['mobile']?.dirty || f['mobile']?.touched)">
+          Please enter a valid 11-digit mobile number.
+        </div>
+      </div>
+  
+      <div>
+        <label class="form-label" for="email">Email:</label>
+        <input class="form-input" type="email" id="email" [(ngModel)]="registerModel.email" formControlName="email">
+        <div class="form-error" *ngIf="getError('email', 'required') && (f['email']?.dirty || f['email']?.touched)">
+          Email is required.
+        </div>
+        <div class="form-error" *ngIf="getError('email', 'email') && (f['email']?.dirty || f['email']?.touched)">
+          Invalid email format.
+        </div>
+      </div>
+  
+      <div>
+        <label class="form-label" for="password">Password:</label>
+        <input class="form-input" type="password" id="password" [(ngModel)]="registerModel.password" formControlName="password">
+        <div class="form-error" *ngIf="getError('password', 'required') && (f['password']?.dirty || f['password']?.touched)">
+          Password is required.
+        </div>
+      </div>
+  
+      <div>
+        <label class="form-label" for="confirmPassword">Confirm Password:</label>
+        <input class="form-input" type="password" id="confirmPassword" formControlName="confirmPassword">
+        <div class="form-error" *ngIf="registerForm.hasError('passwordMismatch') && (f['confirmPassword']?.dirty || f['confirmPassword']?.touched)">
+          Passwords do not match.
+        </div>
+      </div>
+  
+      <button class="form-submit" type="submit" [disabled]="registerForm.invalid">Register</button>
+    </form>
+  </div>
+  

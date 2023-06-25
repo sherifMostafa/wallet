@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Wallet.Dto;
 using Wallet.JWT;
@@ -8,6 +9,7 @@ using Wallet.UnitOfWork;
 namespace Wallet.Controllers
 {
     [Route("api/[controller]")]
+    [EnableCors("WalletPolicy")]
     [ApiController]
     public class TransactionController : ControllerBase
     {
